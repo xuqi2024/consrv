@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main  # 在 main 分支上触发自动编译
-  pull_request:
-    branches:
-      - main  # 在提交 PR 时也触发编译
 
 jobs:
   build:
