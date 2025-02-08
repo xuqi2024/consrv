@@ -32,8 +32,8 @@ jobs:
           export GOARCH=arm64
           export GOOS=linux
           export CC=aarch64-linux-gnu-gcc
-          cd ./consrv  # 如果你的 Go 代码在 consrv 子目录下，确保进入该目录
-          go build -o consrv-linux-arm64 .
+          ls  # 如果你的 Go 代码在 consrv 子目录下，确保进入该目录
+          go build -o consrv-linux-arm64 ./cmd/consrv/
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4 # ✅ 更新至 v4
