@@ -26,6 +26,9 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y gcc-aarch64-linux-gnu
+      - name: Set the Go module directory (if needed)
+        run: |
+            cd ./cmd/consrv/  # 如果你的 Go 代码在子目录下，更新此路径
 
       - name: Build for Raspberry Pi 4 (ARM64)
         run: |
