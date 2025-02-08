@@ -1,0 +1,43 @@
+name: Go Build for Raspberry Pi 4
+
+on:
+  push:
+    branches:
+      - main  # 在 main 分支上触发自动编译
+  pull_request:
+    branches:
+      - main  # 在提交 PR 时也触发编译
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # 使用 Ubuntu 环境作为构建服务器
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # 拉取代码
+
+    - name: Set up Go
+      uses: actions/setup-go@v3  # 安装 Go 环境
+      with:
+        go-version: '1.19'  # 设置 Go 版本（可根据需求调整）
+
+    - name: Set up cross-compilation for Raspberry Pi
+      run: |
+        # 设置环境变量来指定目标平台为 arm64
+        export GOARCH=arm64
+        export GOOS=linux
+        
+        # 安装交叉编译工具
+        sudo apt-get update
+        sudo apt-get install -y gcc-aarch64-linux-gnu
+
+    - name: Build consrv for Raspberry Pi 4
+      run: |
+        # 编译项目，生成树莓派 4 可执行文件
+        go build -o consrv-linux-arm64 ./cmd/consrv  # 假设项目的主程序在 ./cmd/consrv 目录下
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2  # 将生成的可执行文件上传作为构建工件
+      with:
+        name: consrv-linux-arm64
+        path: consrv-linux-arm64
